@@ -4,6 +4,7 @@ import com.beginsecure.test.Util.DBConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -27,13 +28,24 @@ public class Database {
 
 
         connection= DBConnection.getConnection();
-       // loadSQL();
+        loadSQL();
 
     }
 
     private void loadSQL(){
         try {
             query = connection.prepareStatement("SELECT * FROM ACTOR");
+            ResultSet resultSet= query.executeQuery();
+            while(resultSet.next()){
+                int id;
+                String ime,prezime, datum;
+                ime=resultSet.getString("first_name");
+                prezime=resultSet.getString("last_name");
+                id=resultSet.getInt("actor_id");
+                datum= "RANDOM";
+                Istrazivac toADD= new Istrazivac(id,ime,prezime,datum);
+                istrazivaciList.add(toADD);
+            }
         }catch(SQLException e) {
             e.printStackTrace();
         }

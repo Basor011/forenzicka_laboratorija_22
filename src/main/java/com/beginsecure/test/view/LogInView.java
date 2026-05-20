@@ -44,7 +44,7 @@ public class LogInView extends VBox {
 
             if(Database.getInstance().getRegistrovaniKorisnici().contains(nalog)){
                 System.out.println("Uspesna konekcija!");
-                Scene scene= new Scene(new MainView(stage),800,600);
+                Scene scene= new Scene(new MainView(stage),1000,600);
                 stage.setScene(scene);
                 stage.centerOnScreen();
                 ///  OTVORI DB

@@ -1,15 +1,15 @@
 package com.beginsecure.test.view;
 
+import com.beginsecure.test.model.Database;
 import com.beginsecure.test.model.Forenzicka_Istraga;
 import com.beginsecure.test.model.Istrazivac;
 import com.beginsecure.test.model.Sesija;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -18,17 +18,17 @@ public class MainView extends HBox {
 
     private HBox container;
     private VBox VBforenzika, VBsesije, VBbuttons, VBbuttonsComp, VBistrazivac;
-    private TableView<Forenzicka_Istraga> ISTRAGETV;
-    private TableView<Sesija> SESIJELTV;
+    private TableView<Forenzicka_Istraga> TVistrage;
+    private TableView<Sesija> TVSesije;
     private ComboBox<Istrazivac> istrazivaciComboBox;
     private Button statusBtn, obrisiBtn;
-    private Label istragaLb, DbrLb, filterLb, sesijaLb;
+    private Label istragaLb, DbrLb, sesijaLb;
     private CheckBox filterCheckBox;
-    private Region spacer;
 
-    private ObservableList<Forenzicka_Istraga> ISTRAGE ;
-    private ObservableList<Sesija> SESIJE;
-    private ObservableList<Istrazivac> ISTRAZIVACI;
+
+    private ObservableList<Forenzicka_Istraga> listForenzickaIstraga ;
+    private ObservableList<Sesija> listSesije;
+    private ObservableList<Istrazivac> listIstrazivaci;
 
 
     public MainView(Stage stage) {
@@ -36,8 +36,6 @@ public class MainView extends HBox {
         initElements();
         createTable();
         loadData();
-
-
 
 
     }
@@ -58,15 +56,24 @@ public class MainView extends HBox {
 
         istragaLb= new Label("Forenzicke istrage:");
         DbrLb= new Label("Dobro dosli!");
-        filterLb= new Label("Prikazi sopstvene sesije");
         sesijaLb= new Label("Sesije:");
 
-        ISTRAGETV= new TableView<Forenzicka_Istraga>();
-        SESIJELTV = new TableView<Sesija>();
-        istrazivaciComboBox= new ComboBox<Istrazivac>();
-        filterCheckBox=new CheckBox("Prikazi samo sopstvene sesije");
+        TVistrage = new TableView<Forenzicka_Istraga>();
+        TVSesije = new TableView<Sesija>();
 
-      /// ISTRAGE= FXCollections.observableArrayList();
+        istrazivaciComboBox= new ComboBox<>();
+        listIstrazivaci = FXCollections.observableArrayList(Database.getInstance().getIstrazivaciList());
+        istrazivaciComboBox.setItems(listIstrazivaci);
+        istrazivaciComboBox.getSelectionModel().selectedItemProperty().addListener(
+                (observable, stari, novi) -> {
+                    if (novi != null) {
+                        System.out.println("Odabran: " + novi);
+
+                    }
+                }
+        );
+
+        filterCheckBox=new CheckBox("Prikazi sopstvene sesije");
 
         VBbuttons.getChildren().addAll(statusBtn,obrisiBtn,filterCheckBox);
         filterCheckBox.setAlignment(Pos.BOTTOM_LEFT);
@@ -74,10 +81,10 @@ public class MainView extends HBox {
         VBbuttons.setSpacing(10);
         VBbuttons.setPadding(new Insets(25,0,0,0));
 
-        VBforenzika.getChildren().addAll(istragaLb,ISTRAGETV);
+        VBforenzika.getChildren().addAll(istragaLb, TVistrage);
         VBforenzika.setSpacing(10);
 
-        VBsesije.getChildren().addAll(sesijaLb,SESIJELTV);
+        VBsesije.getChildren().addAll(sesijaLb, TVSesije);
         VBsesije.setSpacing(10);
 
         container.getChildren().addAll(VBsesije,VBbuttons);
@@ -87,9 +94,10 @@ public class MainView extends HBox {
         VBistrazivac.getChildren().addAll(DbrLb,istrazivaciComboBox);
         VBistrazivac.setSpacing(10);
         VBistrazivac.setAlignment(Pos.TOP_RIGHT);
+
         this.getChildren().addAll(VBforenzika, container,VBistrazivac);
         this.setSpacing(10);
-        this.setPadding(new Insets(20,10,10,10));
+        this.setPadding(new Insets(20,0,10,10));
         this.setAlignment(Pos.CENTER_LEFT);
 
     }
@@ -100,8 +108,17 @@ public class MainView extends HBox {
     }
     private void createTable(){
 
+        /*
+        TableColumn colID= new TableColumn("ID");
+        TableColumn colIme= new TableColumn("Ime");
+        TableColumn colPrezime= new TableColumn("Prezime");
+
+        colID.setCellValueFactory(new PropertyValueFactory("id"));
+        colIme.setCellValueFactory(new PropertyValueFactory("ime"));
+        colPrezime.setCellValueFactory(new PropertyValueFactory("prezime"));
 
 
+         */
 
     }
 }

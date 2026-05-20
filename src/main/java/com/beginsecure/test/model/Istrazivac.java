@@ -43,4 +43,9 @@ public class Istrazivac {
     public void setDatum_rodjenja(String datum_rodjenja) {
         this.datum_rodjenja = datum_rodjenja;
     }
+
+    @Override
+    public String toString() {
+        return ime + " " + prezime +" " + id;
+    }
 }
