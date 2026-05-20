@@ -1,6 +1,6 @@
 package com.beginsecure.test.view;
 
-import com.beginsecure.test.model.FileUtil;
+import com.beginsecure.test.Util.FileUtil;
 import com.beginsecure.test.model.Nalog;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -50,6 +50,7 @@ public class RegisterView extends VBox {
 
         Scene scene = new Scene(new ChooseView(stage),200,150);
         stage.setScene(scene);
+        stage.centerOnScreen();
         });
 
 

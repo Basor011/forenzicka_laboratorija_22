@@ -1,7 +1,7 @@
 package com.beginsecure.test.view;
 
 import com.beginsecure.test.model.Nalog;
-import com.beginsecure.test.model.UserDatabase;
+import com.beginsecure.test.model.Database;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -42,9 +42,14 @@ public class LogInView extends VBox {
             String sifra = password.getText().trim();
             Nalog nalog = new Nalog(ime,sifra);
 
-            if(UserDatabase.getInstance().getRegistrovaniKorisnici().contains(nalog)){
+            if(Database.getInstance().getRegistrovaniKorisnici().contains(nalog)){
                 System.out.println("Uspesna konekcija!");
+                Scene scene= new Scene(new MainView(stage),500,600);
+                stage.setScene(scene);
+                stage.centerOnScreen();
                 ///  OTVORI DB
+
+
             }
             else{
                 Alert alert= new Alert(Alert.AlertType.INFORMATION);

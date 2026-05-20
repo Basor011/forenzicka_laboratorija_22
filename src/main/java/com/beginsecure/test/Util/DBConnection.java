@@ -1,4 +1,4 @@
-package com.beginsecure.test.model;
+package com.beginsecure.test.Util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,7 +14,7 @@ public class DBConnection {
         try {
             return DriverManager.getConnection(URL, USER, PASS);
         } catch (SQLException e) {
-            System.err.println("Greška prilikom povezivanja na bazu!");
+            System.err.println("Greska prilikom povezivanja na bazu!");
             e.printStackTrace();
             return null;
         }

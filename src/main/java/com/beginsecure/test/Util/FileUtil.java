@@ -1,4 +1,7 @@
-package com.beginsecure.test.model;
+package com.beginsecure.test.Util;
+
+import com.beginsecure.test.model.Nalog;
+import com.beginsecure.test.model.Database;
 
 import java.io.*;
 import java.util.Scanner;
@@ -12,7 +15,7 @@ public class FileUtil {
                 String line = scanner.nextLine();
                 String[] tokens= line.split(" ");
                 Nalog account = new Nalog(tokens[0].trim(), tokens[1].trim());
-                UserDatabase.getInstance().getRegistrovaniKorisnici().add(account);
+                Database.getInstance().getRegistrovaniKorisnici().add(account);
             }
             scanner.close();
         } catch (FileNotFoundException e) {
@@ -27,7 +30,7 @@ public class FileUtil {
 
 
             bw.close();
-            UserDatabase.getInstance().getRegistrovaniKorisnici().add(account);
+            Database.getInstance().getRegistrovaniKorisnici().add(account);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
