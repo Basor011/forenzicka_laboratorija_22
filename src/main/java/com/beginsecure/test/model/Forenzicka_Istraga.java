@@ -2,8 +2,8 @@ package com.beginsecure.test.model;
 
 public class Forenzicka_Istraga {
 
-    int id;
-    String naziv, status;
+    private int id;
+    private String naziv, status;
 
     public Forenzicka_Istraga(int id, String naziv, String status) {
         this.id = id;

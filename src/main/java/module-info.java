@@ -8,5 +8,6 @@ module com.beginsecure.test {
 
 
     opens com.beginsecure.test to javafx.fxml;
+
     exports com.beginsecure.test;
 }

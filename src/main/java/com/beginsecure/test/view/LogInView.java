@@ -43,7 +43,7 @@ public class LogInView extends VBox {
             Nalog nalog = new Nalog(ime,sifra);
 
             if(Database.getInstance().getRegistrovaniKorisnici().contains(nalog)){
-                System.out.println("Uspesna konekcija!");
+                System.out.println("Uspesno logovanje!");
                 Scene scene= new Scene(new MainView(stage),1000,600);
                 stage.setScene(scene);
                 stage.centerOnScreen();

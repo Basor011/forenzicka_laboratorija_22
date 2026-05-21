@@ -2,8 +2,8 @@ package com.beginsecure.test.model;
 
 public class Istrazivac {
 
-    int id;
-    String ime,prezime, datum_rodjenja;
+    private int id;
+    private String ime,prezime, datum_rodjenja;
 
     public Istrazivac(int id, String ime, String prezime, String datum_rodjenja) {
         this.id = id;

@@ -4,11 +4,14 @@ import com.beginsecure.test.model.Database;
 import com.beginsecure.test.model.Forenzicka_Istraga;
 import com.beginsecure.test.model.Istrazivac;
 import com.beginsecure.test.model.Sesija;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -60,6 +63,8 @@ public class MainView extends HBox {
 
         TVistrage = new TableView<Forenzicka_Istraga>();
         TVSesije = new TableView<Sesija>();
+        listSesije=FXCollections.observableArrayList(Database.getInstance().getSesijeList());
+        TVSesije.setItems(listSesije);
 
         istrazivaciComboBox= new ComboBox<>();
         listIstrazivaci = FXCollections.observableArrayList(Database.getInstance().getIstrazivaciList());
@@ -108,17 +113,29 @@ public class MainView extends HBox {
     }
     private void createTable(){
 
-        /*
-        TableColumn colID= new TableColumn("ID");
-        TableColumn colIme= new TableColumn("Ime");
-        TableColumn colPrezime= new TableColumn("Prezime");
-
-        colID.setCellValueFactory(new PropertyValueFactory("id"));
-        colIme.setCellValueFactory(new PropertyValueFactory("ime"));
-        colPrezime.setCellValueFactory(new PropertyValueFactory("prezime"));
+        TableColumn<Sesija, Integer> colIzvodjenje = new TableColumn("IZVODJENJE");
+        TableColumn<Sesija, String> colPocetak = new TableColumn("POCETAK");
+        TableColumn<Sesija, String> colKraj = new TableColumn("KRAJ");
+        TableColumn<Sesija, String> colDatum = new TableColumn("DATUM");
+        TableColumn<Sesija, Integer> colSesija = new TableColumn("SESIJA");
 
 
-         */
+        colIzvodjenje.setCellValueFactory(data ->
+                new SimpleIntegerProperty(data.getValue().getId_izvodjenja()).asObject());
+        colPocetak.setCellValueFactory(data ->
+                new SimpleStringProperty(data.getValue().getPocetak()));
+        colKraj.setCellValueFactory(data ->
+                new SimpleStringProperty(data.getValue().getKraj()));
+        colDatum.setCellValueFactory(data->
+                new SimpleStringProperty(data.getValue().getDatum()));
+        colSesija.setCellValueFactory(data ->
+                new SimpleIntegerProperty(data.getValue().getId()).asObject());
+
+        TVSesije.getColumns().addAll(colIzvodjenje,colPocetak,colKraj,colDatum,colSesija);
+
+
+
+
 
     }
 }

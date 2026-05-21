@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class Nalog {
 
-    String ime, sifra;
+    private String ime, sifra;
 
     public Nalog(String ime, String sifra) {
         this.ime = ime;

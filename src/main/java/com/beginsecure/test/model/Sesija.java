@@ -1,8 +1,8 @@
 package com.beginsecure.test.model;
 
 public class Sesija {
-    int id, id_izvodjenja;
-    String pocetak,kraj,datum;
+    private int id, id_izvodjenja;
+    private String pocetak,kraj,datum;
 
 
     public Sesija(int id,int id_izvodjenja, String pocetak, String kraj, String datum) {
@@ -17,31 +17,19 @@ public class Sesija {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public int getId_izvodjenja() {
+        return id_izvodjenja;
     }
 
     public String getPocetak() {
         return pocetak;
     }
 
-    public void setPocetak(String pocetak) {
-        this.pocetak = pocetak;
-    }
-
     public String getKraj() {
         return kraj;
     }
 
-    public void setKraj(String kraj) {
-        this.kraj = kraj;
-    }
-
     public String getDatum() {
         return datum;
-    }
-
-    public void setDatum(String datum) {
-        this.datum = datum;
     }
 }

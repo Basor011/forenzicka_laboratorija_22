@@ -34,22 +34,44 @@ public class Database {
 
     private void loadSQL(){
         try {
-            query = connection.prepareStatement("SELECT * FROM ACTOR");
+            query = connection.prepareStatement("SELECT * FROM ISTRAZIVAC");
             ResultSet resultSet= query.executeQuery();
             while(resultSet.next()){
                 int id;
-                String ime,prezime, datum;
-                ime=resultSet.getString("first_name");
-                prezime=resultSet.getString("last_name");
-                id=resultSet.getInt("actor_id");
-                datum= "RANDOM";
+                String ime, prezime, datum;
+
+                ime=resultSet.getString("ime_istrazivaca");
+                prezime=resultSet.getString("prezime_istrazivca");
+                id=resultSet.getInt("id_istrazivaca");
+                datum=resultSet.getDate("datum_rodjenja").toString();
                 Istrazivac toADD= new Istrazivac(id,ime,prezime,datum);
                 istrazivaciList.add(toADD);
+                System.out.println(toADD);
             }
+
+            query= connection.prepareStatement("SELECT * FROM SESIJA");
+            resultSet= query.executeQuery();
+            while(resultSet.next()){
+                int id_s, id_i;
+                String pocetak, kraj, datum;
+
+                id_s=resultSet.getInt("id_sesije");
+                id_i=resultSet.getInt("id_izvodjenja");
+                pocetak=resultSet.getTime("vreme_pocetka").toString();
+                kraj=resultSet.getTime("vreme_zavrsetka").toString();
+                datum=resultSet.getDate("datum").toString();
+                Sesija toADD=new Sesija(id_s,id_i,pocetak,kraj,datum);
+                sesijeList.add(toADD);
+
+            }
+
+
+
         }catch(SQLException e) {
             e.printStackTrace();
         }
     }
+    public void loadFilteredSessions()
 
     public static Database getInstance() {
 
