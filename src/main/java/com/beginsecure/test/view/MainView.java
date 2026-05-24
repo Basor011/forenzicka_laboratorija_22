@@ -1,5 +1,6 @@
 package com.beginsecure.test.view;
 
+import com.beginsecure.test.controller.DeleteAction;
 import com.beginsecure.test.model.Database;
 import com.beginsecure.test.model.Forenzicka_Istraga;
 import com.beginsecure.test.model.Istrazivac;
@@ -11,7 +12,6 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -27,6 +27,9 @@ public class MainView extends HBox {
     private Button statusBtn, obrisiBtn;
     private Label istragaLb, DbrLb, sesijaLb;
     private CheckBox filterCheckBox;
+    private boolean flag;
+
+
 
 
     private ObservableList<Forenzicka_Istraga> listForenzickaIstraga ;
@@ -38,12 +41,13 @@ public class MainView extends HBox {
 
         initElements();
         createTable();
-        loadData();
+        loadControllers();
 
 
     }
 
     private void initElements(){
+        flag=true;
 
         VBforenzika =new VBox();
         VBsesije = new VBox();
@@ -52,10 +56,14 @@ public class MainView extends HBox {
         VBistrazivac=new VBox();
         container=new HBox();
 
-        statusBtn= new Button();
-        statusBtn.setText("Status");
-        obrisiBtn=new Button();
-        obrisiBtn.setText("Obrisi");
+        statusBtn= new Button("Status");
+
+       // statusBtn.setText("Status");
+        obrisiBtn=new Button("Obrisi");
+        obrisiBtn.setOnAction(e-> new DeleteAction(this));
+        obrisiBtn.setDisable(true);
+
+       // obrisiBtn.setText("Obrisi");
 
         istragaLb= new Label("Forenzicke istrage:");
         DbrLb= new Label("Dobro dosli!");
@@ -65,6 +73,20 @@ public class MainView extends HBox {
         TVSesije = new TableView<Sesija>();
         listSesije=FXCollections.observableArrayList(Database.getInstance().getSesijeList());
         TVSesije.setItems(listSesije);
+        TVSesije.getSelectionModel().selectedItemProperty().addListener(
+                (observableValue, sesija, t1) -> {
+                    if(t1!=null ){
+                        if(!flag){
+                            obrisiBtn.setDisable(false);
+                        }
+                        else flag=false;
+
+
+                    }
+                }
+        );
+
+
 
         istrazivaciComboBox= new ComboBox<>();
         listIstrazivaci = FXCollections.observableArrayList(Database.getInstance().getIstrazivaciList());
@@ -72,6 +94,10 @@ public class MainView extends HBox {
         istrazivaciComboBox.getSelectionModel().selectedItemProperty().addListener(
                 (observable, stari, novi) -> {
                     if (novi != null) {
+                        if (!flag) {
+                            obrisiBtn.setDisable(false);
+                        }else flag=false;
+
                         System.out.println("Odabran: " + novi);
 
                     }
@@ -107,7 +133,9 @@ public class MainView extends HBox {
 
     }
 
-    private void loadData(){
+    private void loadControllers(){
+        new DeleteAction(this);
+
 
 
     }
@@ -137,5 +165,18 @@ public class MainView extends HBox {
 
 
 
+    }
+
+
+    public Button getObrisiBtn() {
+        return obrisiBtn;
+    }
+
+    public ComboBox<Istrazivac> getIstrazivaciComboBox() {
+        return istrazivaciComboBox;
+    }
+
+    public TableView<Sesija> getTVSesije() {
+        return TVSesije;
     }
 }

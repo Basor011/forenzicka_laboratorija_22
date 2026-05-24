@@ -1,5 +1,7 @@
 package com.beginsecure.test.model;
 
+import java.util.Objects;
+
 public class Istrazivac {
 
     private int id;
@@ -47,5 +49,17 @@ public class Istrazivac {
     @Override
     public String toString() {
         return ime + " " + prezime +" " + id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Istrazivac that = (Istrazivac) o;
+        return id == that.id && Objects.equals(ime, that.ime);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, ime);
     }
 }

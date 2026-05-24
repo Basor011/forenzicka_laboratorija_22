@@ -1,5 +1,7 @@
 package com.beginsecure.test.model;
 
+import java.util.Objects;
+
 public class Sesija {
     private int id, id_izvodjenja;
     private String pocetak,kraj,datum;
@@ -31,5 +33,22 @@ public class Sesija {
 
     public String getDatum() {
         return datum;
+    }
+
+    @Override
+    public String toString() {
+        return "SESIJA " + id+"/"+id_izvodjenja;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Sesija sesija = (Sesija) o;
+        return id == sesija.id && id_izvodjenja == sesija.id_izvodjenja;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, id_izvodjenja);
     }
 }
