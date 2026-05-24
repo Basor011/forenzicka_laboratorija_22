@@ -55,11 +55,11 @@ public class Istrazivac {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Istrazivac that = (Istrazivac) o;
-        return id == that.id && Objects.equals(ime, that.ime);
+        return id == that.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, ime);
+        return Objects.hashCode(id);
     }
 }

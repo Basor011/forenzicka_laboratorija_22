@@ -1,6 +1,7 @@
 package com.beginsecure.test.view;
 
 import com.beginsecure.test.controller.DeleteAction;
+import com.beginsecure.test.controller.FilterAction;
 import com.beginsecure.test.model.Database;
 import com.beginsecure.test.model.Forenzicka_Istraga;
 import com.beginsecure.test.model.Istrazivac;
@@ -15,6 +16,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.util.logging.Filter;
 
 
 public class MainView extends HBox {
@@ -35,6 +38,7 @@ public class MainView extends HBox {
     private ObservableList<Forenzicka_Istraga> listForenzickaIstraga ;
     private ObservableList<Sesija> listSesije;
     private ObservableList<Istrazivac> listIstrazivaci;
+
 
 
     public MainView(Stage stage) {
@@ -135,7 +139,7 @@ public class MainView extends HBox {
 
     private void loadControllers(){
         new DeleteAction(this);
-
+        new FilterAction(this);
 
 
     }
@@ -178,5 +182,21 @@ public class MainView extends HBox {
 
     public TableView<Sesija> getTVSesije() {
         return TVSesije;
+    }
+
+    public ObservableList<Sesija> getListSesije() {
+        return listSesije;
+    }
+
+    public ObservableList<Istrazivac> getListIstrazivaci() {
+        return listIstrazivaci;
+    }
+
+    public ObservableList<Forenzicka_Istraga> getListForenzickaIstraga() {
+        return listForenzickaIstraga;
+    }
+
+    public CheckBox getFilterCheckBox() {
+        return filterCheckBox;
     }
 }

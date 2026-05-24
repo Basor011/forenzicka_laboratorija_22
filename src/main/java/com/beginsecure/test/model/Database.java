@@ -1,6 +1,7 @@
 package com.beginsecure.test.model;
 
 import com.beginsecure.test.Util.DBConnection;
+import javafx.collections.ObservableList;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,7 +20,9 @@ public class Database {
     private ArrayList<Istrazivac> istrazivaciList;
     private ArrayList<Sesija> sesijeList;
     private ArrayList<Forenzicka_Istraga> istrageList;
-    private HashMap<Istrazivac, List<Sesija>> istrazivaciSesije;
+    private ArrayList<Sesija> filterList;
+    private HashMap<Istrazivac, ArrayList<Sesija>> istrazivaciSesije;
+
 
     private Connection connection;
     private PreparedStatement query;
@@ -29,6 +32,7 @@ public class Database {
         istrazivaciList=new ArrayList<>();
         sesijeList=new ArrayList<>();
         istrageList=new ArrayList<>();
+        filterList=new ArrayList<>();
         istrazivaciSesije=new HashMap<>();
 
 
@@ -39,7 +43,10 @@ public class Database {
 
     private void loadSQL(){
         try {
-            query = connection.prepareStatement("SELECT * FROM ISTRAZIVAC");
+
+
+
+            query = connection.prepareStatement("SELECT * FROM ISTRAZIVAC JOIN KRIMINALISTICKI_TEHNICAR using(id_istrazivaca)");
             ResultSet resultSet= query.executeQuery();
             istrazivaciList=loadIstrazivac(resultSet);
 
@@ -47,15 +54,15 @@ public class Database {
             resultSet= query.executeQuery();
             sesijeList=loadSesije(resultSet);
 
-
-           query = connection.prepareStatement(
+            query = connection.prepareStatement(
                     "SELECT * FROM istrazivac i join kriminalisticki_tehnicar kt " +
                             "using (id_istrazivaca) join tim_izvodjaca ti using (id_istrazivaca)" +
                             "join izvodjenje using (id_izvodjenja) join sesija using (id_izvodjenja)  ");
-           resultSet= query.executeQuery();
-          istrazivaciSesije=dodeliSesije(resultSet);
+            resultSet= query.executeQuery();
+            istrazivaciSesije=dodeliSesije(resultSet);
 
-            System.out.println(istrazivaciSesije);
+
+         //   System.out.println(istrazivaciSesije);
 
 
         }catch(SQLException e) {
@@ -67,9 +74,9 @@ public class Database {
         return istrazivaciSesije.get(istrazivac).contains(sesija);
     }
 
-
     private ArrayList<Istrazivac> loadIstrazivac(ResultSet resultSet){
         ArrayList<Istrazivac> lista= new ArrayList<>();
+
         try {
             while (resultSet.next()) {
                 int id;
@@ -81,11 +88,13 @@ public class Database {
                 datum = resultSet.getDate("datum_rodjenja").toString();
                 Istrazivac toADD = new Istrazivac(id, ime, prezime, datum);
                 lista.add(toADD);
-                System.out.println(toADD);
+              //  System.out.println(toADD);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+
         return lista;
     }
 
@@ -111,9 +120,8 @@ public class Database {
         return lista;
     }
 
-
-    private HashMap<Istrazivac, List<Sesija>> dodeliSesije(ResultSet resultSet) {
-        HashMap<Istrazivac, List<Sesija>> lista = new HashMap<>();
+    private HashMap<Istrazivac, ArrayList<Sesija>> dodeliSesije(ResultSet resultSet) {
+        HashMap<Istrazivac, ArrayList<Sesija>> lista = new HashMap<>();
         String ime,prezime,datum,pocetak,kraj,datum_rodjenja;
         int id_istrazivaca,id_sesije,id_izvodjenja;
 
@@ -125,6 +133,8 @@ public class Database {
                 id_istrazivaca = resultSet.getInt("id_istrazivaca");
                 datum = resultSet.getDate("datum_rodjenja").toString();
                 Istrazivac istrazivac = new Istrazivac(id_istrazivaca, ime, prezime, datum);
+
+
 
                 id_sesije = resultSet.getInt("id_sesije");
                 id_izvodjenja = resultSet.getInt("id_izvodjenja");
@@ -144,11 +154,13 @@ public class Database {
         return lista;
     }
 
-
-    public void deleteEntry(Sesija toDelete){
-
-
+    public ArrayList<Sesija> getFilterList(Istrazivac istrazivac) {
+        System.out.println(istrazivaciSesije);
+        filterList=istrazivaciSesije.get(istrazivac);
+       // System.out.println(istrazivaciSesije.get(istrazivac));
+       return filterList;
     }
+
     public static Database getInstance() {
 
         if (instance == null) {
@@ -176,4 +188,9 @@ public class Database {
     public ArrayList<Istrazivac> getIstrazivaciList() {
         return istrazivaciList;
     }
+
+    public HashMap<Istrazivac, ArrayList<Sesija>> getIstrazivaciSesije() {
+        return istrazivaciSesije;
+    }
+
 }

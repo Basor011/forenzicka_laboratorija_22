@@ -20,12 +20,16 @@ public class DeleteAction {
     }
 
     private void deleteAction(){
-        //selektovana sesija je ?
+
        Istrazivac istrazivac= view.getIstrazivaciComboBox().getSelectionModel().getSelectedItem();
        Sesija sesija = view.getTVSesije().getSelectionModel().getSelectedItem();
        if(sesija == null || istrazivac== null) return;
        boolean legal=instance.checkLegal(sesija,istrazivac);
-       if(legal) instance.deleteEntry(sesija);
+       if(legal){
+
+           instance.getSesijeList().remove(sesija);
+           view.getListSesije().remove(sesija);
+       }
        else{
            Alert alert=new Alert(Alert.AlertType.ERROR);
            alert.setTitle("Greska");
