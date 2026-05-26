@@ -1,14 +1,16 @@
 package com.beginsecure.test.model;
 
+import java.util.Objects;
+
 public class Forenzicka_Istraga {
 
     private int id;
-    private String naziv, status;
+    private String naziv;
 
-    public Forenzicka_Istraga(int id, String naziv, String status) {
+    public Forenzicka_Istraga(int id, String naziv) {
         this.id = id;
         this.naziv = naziv;
-        this.status=status;
+
     }
 
     public int getId() {
@@ -27,11 +29,15 @@ public class Forenzicka_Istraga {
         this.naziv = naziv;
     }
 
-    public String getStatus() {
-        return status;
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Forenzicka_Istraga that = (Forenzicka_Istraga) o;
+        return id == that.id;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }

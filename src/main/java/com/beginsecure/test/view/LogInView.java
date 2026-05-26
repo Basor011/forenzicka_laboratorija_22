@@ -44,7 +44,7 @@ public class LogInView extends VBox {
 
             if(Database.getInstance().getRegistrovaniKorisnici().contains(nalog)){
                 System.out.println("Uspesno logovanje!");
-                Scene scene= new Scene(new MainView(stage),1000,600);
+                Scene scene= new Scene(new MainView(stage),1450,600);
                 stage.setScene(scene);
                 stage.centerOnScreen();
                 ///  OTVORI DB

@@ -5,6 +5,7 @@ import com.beginsecure.test.model.Database;
 import com.beginsecure.test.model.Istrazivac;
 import com.beginsecure.test.model.Sesija;
 import com.beginsecure.test.view.MainView;
+import javafx.collections.FXCollections;
 import javafx.scene.control.Alert;
 
 public class DeleteAction {
@@ -22,13 +23,16 @@ public class DeleteAction {
     private void deleteAction(){
 
        Istrazivac istrazivac= view.getIstrazivaciComboBox().getSelectionModel().getSelectedItem();
+
        Sesija sesija = view.getTVSesije().getSelectionModel().getSelectedItem();
        if(sesija == null || istrazivac== null) return;
        boolean legal=instance.checkLegal(sesija,istrazivac);
        if(legal){
-
            instance.getSesijeList().remove(sesija);
+           instance.getIstrazivaciSesije().get(istrazivac).remove(sesija);
            view.getListSesije().remove(sesija);
+           view.getTVSesije().setItems(FXCollections.observableArrayList(Database.getInstance().getFilterList(istrazivac)));
+
        }
        else{
            Alert alert=new Alert(Alert.AlertType.ERROR);

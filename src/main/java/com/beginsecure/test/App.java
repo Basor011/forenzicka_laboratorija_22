@@ -29,25 +29,6 @@ public class App extends Application {
         Connection connection = Database.getInstance().getConnection();
         if(connection != null){
             System.out.println("Baza je uspesno povezana!");
-            /*
-            try {
-                PreparedStatement statement = connection.prepareStatement("SELECT * FROM ACTOR");
-                ResultSet resultSet= statement.executeQuery();
-                while(resultSet.next()){
-
-                    System.out.println(resultSet.getString(
-                            "first_name")+ " "
-                            + resultSet.getString("last_name") + " "
-                            + resultSet.getInt("actor_id")
-                    );
-
-
-                }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-
-             */
         }
         launch();
 

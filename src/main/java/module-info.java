@@ -5,6 +5,7 @@ module com.beginsecure.test {
     requires javafx.graphics;
     requires java.sql;
     requires jdk.compiler;
+    requires javafx.base;
 
 
     opens com.beginsecure.test to javafx.fxml;

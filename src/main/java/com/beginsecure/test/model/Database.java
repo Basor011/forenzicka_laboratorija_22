@@ -22,6 +22,7 @@ public class Database {
     private ArrayList<Forenzicka_Istraga> istrageList;
     private ArrayList<Sesija> filterList;
     private HashMap<Istrazivac, ArrayList<Sesija>> istrazivaciSesije;
+    private HashMap<Forenzicka_Istraga,ArrayList<Izvodjenje>> istrageIzvodjenje;
 
 
     private Connection connection;
@@ -34,6 +35,7 @@ public class Database {
         istrageList=new ArrayList<>();
         filterList=new ArrayList<>();
         istrazivaciSesije=new HashMap<>();
+        istrageIzvodjenje=new HashMap<>();
 
 
         connection= DBConnection.getConnection();
@@ -44,12 +46,7 @@ public class Database {
     private void loadSQL(){
         try {
 
-
-
-            query = connection.prepareStatement("SELECT * FROM ISTRAZIVAC JOIN KRIMINALISTICKI_TEHNICAR using(id_istrazivaca)");
-            ResultSet resultSet= query.executeQuery();
-            istrazivaciList=loadIstrazivac(resultSet);
-
+            ResultSet resultSet;
             query= connection.prepareStatement("SELECT * FROM SESIJA");
             resultSet= query.executeQuery();
             sesijeList=loadSesije(resultSet);
@@ -61,8 +58,20 @@ public class Database {
             resultSet= query.executeQuery();
             istrazivaciSesije=dodeliSesije(resultSet);
 
+            query= connection.prepareStatement(
+                    "SELECT * FROM FORENZICKA_ISTRAGA JOIN IZVODJENJE USING(id_forenzicke_istrage)"
+            );
+            resultSet=query.executeQuery();
+            istrageIzvodjenje=dodajForenziku(resultSet);
 
-         //   System.out.println(istrazivaciSesije);
+            System.out.println(istrazivaciSesije);
+            /*
+            query = connection.prepareStatement(
+                    "SELECT * FROM ISTRAZIVAC JOIN KRIMINALISTICKI_TEHNICAR using(id_istrazivaca)");
+            ResultSet resultSet= query.executeQuery();
+            istrazivaciList=loadIstrazivac(resultSet);
+
+             */
 
 
         }catch(SQLException e) {
@@ -71,9 +80,14 @@ public class Database {
     }
 
     public boolean checkLegal(Sesija sesija, Istrazivac istrazivac){
-        return istrazivaciSesije.get(istrazivac).contains(sesija);
-    }
+        try{
+           return  istrazivaciSesije.get(istrazivac).contains(sesija);
+        }catch(NullPointerException e){
+            return false;
+        }
 
+    }
+/*
     private ArrayList<Istrazivac> loadIstrazivac(ResultSet resultSet){
         ArrayList<Istrazivac> lista= new ArrayList<>();
 
@@ -91,6 +105,36 @@ public class Database {
               //  System.out.println(toADD);
             }
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        return lista;
+    }
+
+
+ */
+    private HashMap<Forenzicka_Istraga,ArrayList<Izvodjenje>> dodajForenziku(ResultSet resultSet){
+        HashMap<Forenzicka_Istraga,ArrayList<Izvodjenje>> lista=new HashMap<>();
+        int  id_izvodjenja, id_forenzicke_istrage, id_laboratorije;;
+        String naziv_istrage, datum, status;
+
+        try{
+            while(resultSet.next()){
+                id_forenzicke_istrage=resultSet.getInt("id_forenzicke_istrage");
+                naziv_istrage=resultSet.getString("naziv");
+                Forenzicka_Istraga fi =new Forenzicka_Istraga(id_forenzicke_istrage,naziv_istrage);
+
+                id_izvodjenja=resultSet.getInt("id_izvodjenja");
+                id_laboratorije=resultSet.getInt("id_laboratorije");
+                datum=resultSet.getDate("datum_izvodjenja").toString();
+                status=resultSet.getString("status_izvodjenja");
+                Izvodjenje i=new Izvodjenje(id_izvodjenja,id_forenzicke_istrage,id_laboratorije,datum,status);
+
+                lista.computeIfAbsent(fi,key -> new ArrayList<>()).add(i);
+
+            }
+        }catch(SQLException e){
             e.printStackTrace();
         }
 
@@ -122,7 +166,7 @@ public class Database {
 
     private HashMap<Istrazivac, ArrayList<Sesija>> dodeliSesije(ResultSet resultSet) {
         HashMap<Istrazivac, ArrayList<Sesija>> lista = new HashMap<>();
-        String ime,prezime,datum,pocetak,kraj,datum_rodjenja;
+        String ime,prezime,datum,pocetak,kraj;
         int id_istrazivaca,id_sesije,id_izvodjenja;
 
 
@@ -193,4 +237,7 @@ public class Database {
         return istrazivaciSesije;
     }
 
+    public HashMap<Forenzicka_Istraga, ArrayList<Izvodjenje>> getIstrageIzvodjenje() {
+        return istrageIzvodjenje;
+    }
 }
