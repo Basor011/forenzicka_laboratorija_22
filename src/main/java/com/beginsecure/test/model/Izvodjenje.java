@@ -3,8 +3,8 @@ package com.beginsecure.test.model;
 import java.util.Objects;
 
 public class Izvodjenje {
-    int id_izvodjenja, id_forenzicke_istrage, id_laboratorije;
-    String datum,status;
+   private int id_izvodjenja, id_forenzicke_istrage, id_laboratorije;
+   private String datum,status;
 
     public Izvodjenje(int id_izvodjenja, int id_forenzicke_istrage, int id_laboratorije, String datum, String status) {
         this.id_izvodjenja = id_izvodjenja;

@@ -15,7 +15,6 @@ public class ChooseView extends VBox {
     private Button loginBtn, registerBtn;
     private HBox hbox;
 
-
     public ChooseView(Stage stage){
         stage.setTitle("Biraj");
         loginBtn= new Button("Login");

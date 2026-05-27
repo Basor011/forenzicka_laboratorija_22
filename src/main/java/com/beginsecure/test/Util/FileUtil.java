@@ -28,7 +28,6 @@ public class FileUtil {
             bw.write(account.toString());
             bw.newLine();
 
-
             bw.close();
             Database.getInstance().getRegistrovaniKorisnici().add(account);
         } catch (IOException e) {

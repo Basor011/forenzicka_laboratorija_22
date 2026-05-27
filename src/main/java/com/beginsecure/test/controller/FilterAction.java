@@ -26,11 +26,8 @@ public class FilterAction {
             if(sesije==null){
                 view.getTVSesije().setItems(FXCollections.observableArrayList(new ArrayList<>()));
                 return;
-
             }
-
            view.getTVSesije().setItems(FXCollections.observableArrayList(sesije));
-
         } else {
             view.getTVSesije().setItems(view.getListSesije());
         }

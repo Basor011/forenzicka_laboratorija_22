@@ -10,7 +10,6 @@ public class Forenzicka_Istraga {
     public Forenzicka_Istraga(int id, String naziv) {
         this.id = id;
         this.naziv = naziv;
-
     }
 
     public int getId() {

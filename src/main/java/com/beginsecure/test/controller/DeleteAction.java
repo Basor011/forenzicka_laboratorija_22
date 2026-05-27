@@ -31,9 +31,6 @@ public class DeleteAction {
            instance.deleteSession(sesija,istrazivac);
            view.getListSesije().remove(sesija);
            view.getTVSesije().setItems(FXCollections.observableArrayList(Database.getInstance().getFilterList(istrazivac)));
-           /// DATABASE UPDATE
-
-
        }
        else{
            Alert alert=new Alert(Alert.AlertType.ERROR);
@@ -41,11 +38,6 @@ public class DeleteAction {
            alert.setHeaderText("Brisanje neuspesno");
            alert.setContentText("Izabrani istrazivac ne prisustvuje ovoj sesiji!");
            alert.showAndWait();
-
        }
-
-
-
-
     }
 }

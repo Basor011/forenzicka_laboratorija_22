@@ -34,10 +34,8 @@ public class Database {
         istrazivaciSesije=new HashMap<>();
         istrageIzvodjenje=new HashMap<>();
 
-
         connection= DBConnection.getConnection();
         loadSQL();
-
     }
 
     private void loadSQL(){
@@ -62,15 +60,6 @@ public class Database {
             istrageIzvodjenje=dodajForenziku(resultSet);
 
             System.out.println(istrazivaciSesije);
-            /*
-            query = connection.prepareStatement(
-                    "SELECT * FROM ISTRAZIVAC JOIN KRIMINALISTICKI_TEHNICAR using(id_istrazivaca)");
-            ResultSet resultSet= query.executeQuery();
-            istrazivaciList=loadIstrazivac(resultSet);
-
-             */
-
-
         }catch(SQLException e) {
             e.printStackTrace();
         }
@@ -82,35 +71,8 @@ public class Database {
         }catch(NullPointerException e){
             return false;
         }
-
-    }
-/*
-    private ArrayList<Istrazivac> loadIstrazivac(ResultSet resultSet){
-        ArrayList<Istrazivac> lista= new ArrayList<>();
-
-        try {
-            while (resultSet.next()) {
-                int id;
-                String ime, prezime, datum;
-
-                ime = resultSet.getString("ime_istrazivaca");
-                prezime = resultSet.getString("prezime_istrazivca");
-                id = resultSet.getInt("id_istrazivaca");
-                datum = resultSet.getDate("datum_rodjenja").toString();
-                Istrazivac toADD = new Istrazivac(id, ime, prezime, datum);
-                lista.add(toADD);
-              //  System.out.println(toADD);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
-        return lista;
     }
 
-
- */
     private HashMap<Forenzicka_Istraga,ArrayList<Izvodjenje>> dodajForenziku(ResultSet resultSet){
         HashMap<Forenzicka_Istraga,ArrayList<Izvodjenje>> lista=new HashMap<>();
         int  id_izvodjenja, id_forenzicke_istrage, id_laboratorije;;
@@ -153,7 +115,6 @@ public class Database {
                 datum = resultSet.getDate("datum").toString();
                 Sesija toADD = new Sesija(id_s, id_i, pocetak, kraj, datum);
                 lista.add(toADD);
-
             }
         }catch(SQLException e) {
             e.printStackTrace();
@@ -225,7 +186,7 @@ public class Database {
     public void updateStatus(Izvodjenje izvodjenje, String newStatus){
 
         try{
-            int id_izv= izvodjenje.id_izvodjenja;
+            int id_izv= izvodjenje.getId_izvodjenja();
             PreparedStatement query;
                 query= connection.prepareStatement("UPDATE izvodjenje " +
                     "SET status_izvodjenja='"+ newStatus +"' WHERE id_izvodjenja="+id_izv);

@@ -47,8 +47,6 @@ public class LogInView extends VBox {
                 Scene scene= new Scene(new MainView(stage),1450,600);
                 stage.setScene(scene);
                 stage.centerOnScreen();
-                ///  OTVORI DB
-
 
             }
             else{
@@ -58,7 +56,6 @@ public class LogInView extends VBox {
                 alert.setContentText("Pogresna kombinacija imena i sifre");
                 alert.showAndWait();
             }
-
         });
 
         ime=new Label("Ime: " );

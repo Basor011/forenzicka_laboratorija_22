@@ -29,7 +29,6 @@ public class RegisterView extends VBox {
         HboxPass= new HBox();
         HboxButtons= new HBox();
         Vbox= new VBox();
-
         username= new TextField();
         password=new PasswordField();
 
@@ -38,7 +37,6 @@ public class RegisterView extends VBox {
             Scene scene = new Scene(new ChooseView(stage),200,150);
             stage.setScene(scene);
         });
-
 
         registerBtn=new Button("Registruj");
         registerBtn.setOnAction(e-> {
@@ -52,8 +50,6 @@ public class RegisterView extends VBox {
         stage.setScene(scene);
         stage.centerOnScreen();
         });
-
-
 
         ime=new Label("Ime: " );
         sifra= new Label("Sifra: ");
@@ -70,12 +66,10 @@ public class RegisterView extends VBox {
         HboxButtons.getChildren().addAll(registerBtn,backBtn);
         HboxButtons.setAlignment(Pos.CENTER);
 
-
         Vbox.getChildren().addAll(registruj,HboxUser,HboxPass,HboxButtons);
         Vbox.setAlignment(Pos.CENTER);
         Vbox.setSpacing(20);
         this.getChildren().addAll(Vbox);
         this.setAlignment(Pos.CENTER);
-
     }
 }

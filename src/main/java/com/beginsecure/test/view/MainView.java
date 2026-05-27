@@ -217,20 +217,10 @@ public class MainView extends HBox {
             izvodjenje.setStatus(newvalue);
             Database.getInstance().updateStatus(izvodjenje, newvalue);
 
-            ///  DODAJ DATABASE UPDATE
         });
-
-
-
-
         tvIzvodjenja.getColumns().addAll(colstatus,coldatum,colId,colIdI,colIdL);
         tvIzvodjenja.setEditable(true);
-
-
-
-
     }
-
 
     public Button getObrisiBtn() {
         return obrisiBtn;
