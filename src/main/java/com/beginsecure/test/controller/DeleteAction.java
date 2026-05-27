@@ -28,10 +28,11 @@ public class DeleteAction {
        if(sesija == null || istrazivac== null) return;
        boolean legal=instance.checkLegal(sesija,istrazivac);
        if(legal){
-           instance.getSesijeList().remove(sesija);
-           instance.getIstrazivaciSesije().get(istrazivac).remove(sesija);
+           instance.deleteSession(sesija,istrazivac);
            view.getListSesije().remove(sesija);
            view.getTVSesije().setItems(FXCollections.observableArrayList(Database.getInstance().getFilterList(istrazivac)));
+           /// DATABASE UPDATE
+
 
        }
        else{

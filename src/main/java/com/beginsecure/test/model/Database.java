@@ -1,7 +1,6 @@
 package com.beginsecure.test.model;
 
 import com.beginsecure.test.Util.DBConnection;
-import javafx.collections.ObservableList;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,8 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
 
 public class Database {
 
@@ -203,6 +200,41 @@ public class Database {
         filterList=istrazivaciSesije.get(istrazivac);
        // System.out.println(istrazivaciSesije.get(istrazivac));
        return filterList;
+    }
+    public void deleteSession(Sesija sesija, Istrazivac istrazivac){
+        sesijeList.remove(sesija);
+        istrazivaciSesije.get(istrazivac).remove(sesija);
+        try {
+            PreparedStatement query;
+            query= connection.prepareStatement("SELECT ID_SESIJE,ID_ALATA FROM utrosak_alata JOIN SESIJA USING (id_sesije)");
+            query.execute();
+            query= connection.prepareStatement("DELETE FROM utrosak_alata " +
+                    "WHERE id_sesije=" + sesija.getId());
+            query.execute();
+            query= connection.prepareStatement("DELETE FROM sesija " +
+                    "WHERE id_sesije="+sesija.getId());
+            query.execute();
+            query= connection.prepareStatement("SELECT * FROM utrosak_alata JOIN SESIJA USING (id_sesije)");
+            query.execute();
+
+        }catch(SQLException e ){
+          e.printStackTrace();
+        }
+
+    }
+    public void updateStatus(Izvodjenje izvodjenje, String newStatus){
+
+        try{
+            int id_izv= izvodjenje.id_izvodjenja;
+            PreparedStatement query;
+                query= connection.prepareStatement("UPDATE izvodjenje " +
+                    "SET status_izvodjenja='"+ newStatus +"' WHERE id_izvodjenja="+id_izv);
+                query.execute();
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
     }
 
     public static Database getInstance() {

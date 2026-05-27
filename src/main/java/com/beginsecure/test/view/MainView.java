@@ -63,12 +63,9 @@ public class MainView extends HBox {
 
         statusSelect=FXCollections.observableArrayList("planirano", "započeto", "otkazano", "završeno uspešno","završeno neuspešno");
 
-       // statusBtn.setText("Status");
         obrisiBtn=new Button("Obrisi");
         obrisiBtn.setOnAction(e-> new DeleteAction(this));
         obrisiBtn.setDisable(true);
-
-       // obrisiBtn.setText("Obrisi");
 
         istragaLb= new Label("Forenzicke istrage:");
         DbrLb= new Label("Dobro dosli!");
@@ -98,7 +95,7 @@ public class MainView extends HBox {
         TVSesije.getSelectionModel().selectedItemProperty().addListener(
                 (observableValue, sesija, t1) -> {
                     if(t1!=null ){
-                        if(!flag){
+                        if(!flag && !istrazivaciComboBox.getSelectionModel().isEmpty()){
                             obrisiBtn.setDisable(false);
                         }
                         else flag=false;
@@ -112,7 +109,7 @@ public class MainView extends HBox {
         istrazivaciComboBox.setItems(listIstrazivaci);
         istrazivaciComboBox.getSelectionModel().selectedItemProperty().addListener(
                 (observable, stari, novi) -> {
-                    if (novi != null) {
+                    if (novi != null && !TVSesije.getSelectionModel().getSelectedCells().isEmpty()) {
                         if (!flag) {
                             obrisiBtn.setDisable(false);
                         }else flag=false;
@@ -218,8 +215,9 @@ public class MainView extends HBox {
             Izvodjenje izvodjenje = e.getRowValue();
             String newvalue=e.getNewValue();
             izvodjenje.setStatus(newvalue);
+            Database.getInstance().updateStatus(izvodjenje, newvalue);
 
-            ///  DODAJ DATABSE UPDTE
+            ///  DODAJ DATABASE UPDATE
         });
 
 
