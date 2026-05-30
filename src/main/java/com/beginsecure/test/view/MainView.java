@@ -43,12 +43,9 @@ public class MainView extends HBox {
 
 
     public MainView(Stage stage) {
-
         initElements();
         createTable();
         loadControllers();
-
-
     }
 
     private void initElements(){
