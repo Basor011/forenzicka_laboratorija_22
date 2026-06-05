@@ -30,7 +30,12 @@ public class DeleteAction {
        if(legal){
            instance.deleteSession(sesija,istrazivac);
            view.getListSesije().remove(sesija);
-           view.getTVSesije().setItems(FXCollections.observableArrayList(Database.getInstance().getFilterList(istrazivac)));
+           if(view.getFilterCheckBox().isSelected()) {
+               view.getTVSesije().setItems(FXCollections.observableArrayList(Database.getInstance().getFilterList(istrazivac)));
+           }
+           else{
+
+           }
        }
        else{
            Alert alert=new Alert(Alert.AlertType.ERROR);
