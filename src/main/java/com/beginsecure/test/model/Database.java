@@ -59,6 +59,18 @@ public class Database {
             resultSet=query.executeQuery();
             istrageIzvodjenje=dodajForenziku(resultSet);
 
+            query= connection.prepareStatement("CALL add_dokaz(\n" +
+                    "    'Jug Kalina',\n" +
+                    "    'Slika tragova krvi.',\n" +
+                    "    16,\n" +
+                    "    7,\n" +
+                    "    6,\n" +
+                    "    'otvoren',\n" +
+                    "    5\n" +
+                    ");");
+            resultSet= query.executeQuery();
+           // System.out.println(resultSet.toString());
+
             System.out.println(istrazivaciSesije);
         }catch(SQLException e) {
             e.printStackTrace();
